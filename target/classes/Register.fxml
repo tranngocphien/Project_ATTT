@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="448.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.RegisterController">
+    <children>
+        <Label layoutX="79.0" layoutY="98.0" text="Tên tài khoản" />
+        <TextField fx:id="txUsername" layoutX="207.0" layoutY="93.0" prefHeight="31.0" prefWidth="317.0" />
+        <Label layoutX="81.0" layoutY="158.0" text="Mật khẩu" />
+        <Button layoutX="281.0" layoutY="288.0" mnemonicParsing="false" onAction="#register" text="Đăng ký" />
+      <Label layoutX="79.0" layoutY="214.0" text="Nhập lại mật khẩu" />
+      <PasswordField fx:id="pw1" layoutX="207.0" layoutY="153.0" prefHeight="31.0" prefWidth="317.0" />
+      <PasswordField fx:id="pw2" layoutX="207.0" layoutY="209.0" prefHeight="31.0" prefWidth="317.0" />
+    </children>
+</AnchorPane>

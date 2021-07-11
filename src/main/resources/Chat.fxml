@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #500acf;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ChatController">
+   <children>
+      <ListView fx:id="lvChat" layoutX="20.0" layoutY="51.0" prefHeight="495.0" prefWidth="765.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="75.0" />
+      <ComboBox fx:id="cbListUser" layoutX="514.0" layoutY="25.0" onAction="#resetChat" prefHeight="31.0" prefWidth="354.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="25.0" />
+      <TextField fx:id="txContent" layoutX="20.0" layoutY="555.0" prefHeight="31.0" prefWidth="646.0" />
+      <Button layoutX="691.0" layoutY="555.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="31.0" prefWidth="95.0" style="-fx-background-color: #ffffff;" text="SEND" textFill="#500acf" />
+      <Label fx:id="lbUsername" layoutX="20.0" layoutY="19.0" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.LoginController">
+   <children>
+      <Label layoutX="329.0" layoutY="14.0" prefHeight="83.0" prefWidth="143.0" text="LOGIN" textFill="#500acf" AnchorPane.bottomAnchor="503.0" AnchorPane.leftAnchor="329.0" AnchorPane.rightAnchor="328.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold" size="43.0" />
+         </font>
+      </Label>
+      <Pane layoutX="53.0" layoutY="121.0" prefHeight="305.0" prefWidth="499.0" style="-fx-background-color: #500acf; -fx-background-radius: 20px;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="120.0">
+         <children>
+            <TextField fx:id="txUsername" layoutX="131.0" layoutY="107.0" prefHeight="52.0" prefWidth="501.0" />
+            <Label layoutX="32.0" layoutY="122.0" text="Tên tài khoản" textFill="WHITE" />
+            <PasswordField fx:id="txPassword" layoutX="131.0" layoutY="179.0" prefHeight="52.0" prefWidth="501.0" />
+            <Label layoutX="32.0" layoutY="195.0" text="Mật khẩu" textFill="WHITE" />
+            <Button layoutX="245.0" layoutY="291.0" mnemonicParsing="false" onAction="#register" prefHeight="39.0" prefWidth="94.0" text="Đăng ký" textFill="#500acf" />
+            <Button layoutX="365.0" layoutY="291.0" mnemonicParsing="false" onAction="#login" prefHeight="39.0" prefWidth="106.0" text="Đăng nhập" textFill="#500acf" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
