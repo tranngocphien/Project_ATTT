@@ -4,20 +4,32 @@ import database.User;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import mahoa.AESUtil;
+import mahoa.FileUtil;
+import mahoa.RSAUtil;
 import model.Message;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.websocket.DeploymentException;
 import javax.websocket.EncodeException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class ChatController {
     private String username;
@@ -56,10 +68,29 @@ public class ChatController {
     }
 
     @FXML
-    public void sendMessage(ActionEvent event) throws IOException, EncodeException {
+    public void sendMessage(ActionEvent event) throws IOException, EncodeException, NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, InvalidKeySpecException {
         String receiver = cbListUser.getValue();
         String content = txContent.getText();
-        Message message = new Message(username, receiver, content);
+
+        // 1. Generate AES key
+        SecretKey key = AESUtil.generateAESKey();
+
+        // 2. Encrypt file content
+        byte[] encryptedContent = AESUtil.encryptFile(key, content.getBytes());
+
+        File publicKeyFile = new File("key/"+receiver+"/public_key.txt");
+
+        // 3. Encrypt AES key
+        PublicKey publicKey = RSAUtil.getPublicKey(Base64.getDecoder().decode(FileUtil.readBytesFromFile(publicKeyFile)));
+        byte[] encryptedKey = RSAUtil.encryptKey(publicKey, key.getEncoded());
+
+        // 4. Attach encrypted key to file
+        byte[] fileOutputContent = FileUtil.combineBytes(encryptedKey, encryptedContent);
+
+        String mss = new String(fileOutputContent, StandardCharsets.UTF_8);
+        //System.out.println(mss);
+
+        Message message = new Message(username, receiver, mss);
         this.endpoint.sendMessage(message);
         this.lvChat.getItems().add(message.getFrom() + ": " + message.getContent());
         txContent.setText("");

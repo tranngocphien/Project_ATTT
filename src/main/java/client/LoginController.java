@@ -12,8 +12,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mahoa.FileUtil;
 
+import java.io.File;
 import java.io.IOException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 public class LoginController {
     @FXML
@@ -30,7 +36,7 @@ public class LoginController {
         stage.show();
     }
 
-    public void login(ActionEvent event) throws IOException {
+    public void login(ActionEvent event) throws IOException, NoSuchAlgorithmException {
 
 
         String username = txUsername.getText();
@@ -38,6 +44,24 @@ public class LoginController {
         if(User.checkPassword(username,pw)){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Chat.fxml"));
+
+            KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+            generator.initialize(2048);
+            KeyPair kpg = generator.generateKeyPair();
+
+            String private_key = "key/"+username+"/private_key.txt";
+            String public_key = "key/"+username+"/public_key.txt";
+
+            File privateKey = new File(private_key);
+            File publicKey = new File(public_key);
+
+            File dir = new File("key/"+username);
+            if (dir.mkdir()){
+                System.out.println("crated dir " +dir.getPath());
+            }
+
+            FileUtil.writeToFile(privateKey, Base64.getEncoder().encode(kpg.getPrivate().getEncoded()));
+            FileUtil.writeToFile(publicKey, Base64.getEncoder().encode(kpg.getPublic().getEncoded()));
 
             try {
                 Parent root = loader.load();
