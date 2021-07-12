@@ -1,7 +1,7 @@
 package mahoa;
 
 public class Constants {
-    private static String FOLDER = "../Output/";
+    private static String FOLDER = "key/exam/";
 
     public static String PRIVATE_KEY = FOLDER + "private.txt";
     public static String PUBLIC_KEY = FOLDER + "public.txt";

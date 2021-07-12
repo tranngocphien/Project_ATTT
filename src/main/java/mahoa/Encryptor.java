@@ -28,7 +28,7 @@ public class Encryptor {
             byte[] fileOutputContent = FileUtil.combineBytes(encryptedKey, encryptedContent);
 
             // 5. Write to output
-            //FileUtil.writeToFile(output, fileOutputContent);
+            FileUtil.writeToFile(output, fileOutputContent);
         } catch (Exception e) {
             e.printStackTrace();
         }

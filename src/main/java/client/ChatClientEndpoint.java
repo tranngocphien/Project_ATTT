@@ -3,6 +3,7 @@ package client;
 import javafx.application.Platform;
 import javafx.scene.control.ListView;
 import mahoa.AESUtil;
+import mahoa.Constants;
 import mahoa.FileUtil;
 import mahoa.RSAUtil;
 import model.Message;
@@ -46,14 +47,22 @@ public class ChatClientEndpoint {
 
     @OnMessage
     public void onMessage(Message message) throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidAlgorithmParameterException {
-        byte[] content = message.getContent().getBytes();
-        System.out.println("content length : " + content.length);
+        byte[] content1 = message.getContent().getBytes();
+        System.out.println("message : " +message.getContent());
+        System.out.println("content length : " + message.getContent().length());
 
         File privateKeyFile = new File("key/"+message.getTo()+"/private_key.txt");
+        System.out.println("key/"+message.getTo()+"/private_key.txt");
 
+        File privateKeyFile1 = new File(Constants.PRIVATE_KEY);
+        File input = new File("key/"+message.getTo()+"/content.txt");
+        File output = new File(Constants.DECRYPTED_FILE);
+
+        byte[] content = FileUtil.readBytesFromFile(input);
+        System.out.println(content.length);
         // 1. First 256 is encrypted AES key
         byte[] encryptedKey = Arrays.copyOfRange(content, 0, 256);
-        System.out.println("done 1");
+        System.out.println("done 1 encryptedKey : " + encryptedKey);
 
         // 2. Next 16 bytes for IV
         byte[] ivBytes = Arrays.copyOfRange(content, 256, 272);
@@ -63,9 +72,18 @@ public class ChatClientEndpoint {
         byte[] fileBytes = Arrays.copyOfRange(content, 272, content.length);
         System.out.println("done 3");
 
+
+
         // 4. Decrypt the AES key
         PrivateKey rsaPrivate = RSAUtil.getPrivateKey(Base64.getDecoder().decode(FileUtil.readBytesFromFile(privateKeyFile)));
-        System.out.println("done 4.1");
+
+//        //byte[] bytes = new Byte(privateKeyFile.)
+//        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(FileUtil.readBytesFromFile(privateKeyFile));
+//        KeyFactory factory = KeyFactory.getInstance("RSA");
+//        PrivateKey priKey = factory.generatePrivate(spec);
+
+
+        System.out.println("done 4.1 : " + Arrays.toString(encryptedKey));
         byte[] aesKeyBytes = RSAUtil.decryptKey(rsaPrivate, encryptedKey);
         System.out.println("done 4");
 

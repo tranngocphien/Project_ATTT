@@ -32,6 +32,8 @@ public class ChatServerEndpoint {
             if(message.getTo().equals(user)){
                 s.getBasicRemote().sendObject(message);
             }
+            System.out.println("ms server : " + message.getContent() + " length : " + message.getContent().length());
+
         }
 //        broadcast(message);
 

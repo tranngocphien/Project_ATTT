@@ -35,7 +35,7 @@ public class RSAUtil {
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         System.out.println("decrypt 1");
         cipher.init(Cipher.DECRYPT_MODE, key);
-        System.out.println("decrypt 2 : " + key );
+        System.out.println("decrypt 2 : " + key);
         byte[] b = cipher.doFinal(content);
         System.out.println(b);
         return b;
