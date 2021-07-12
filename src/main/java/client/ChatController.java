@@ -86,19 +86,14 @@ public class ChatController {
         // 4. Attach encrypted key to file
         byte[] fileOutputContent = FileUtil.combineBytes(encryptedKey, encryptedContent);
 
-        String mss = new String(fileOutputContent);
-        //System.out.println(mss);
+        // convert byte[] to string, then send to receiver
+        String mss = Base64.getEncoder().encodeToString(fileOutputContent);
 
-        File output = new File("key/"+receiver+"/content.txt");
-
-        // 5. Write to output
-        FileUtil.writeToFile(output, fileOutputContent);
 
         Message message = new Message(username, receiver, mss);
         this.endpoint.sendMessage(message);
         this.lvChat.getItems().add(message.getFrom() + ": " + content);
         txContent.setText("");
-        System.out.println("mss : " + mss + " length : " + mss.length());
     }
 
     @FXML

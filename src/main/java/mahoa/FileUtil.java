@@ -9,26 +9,17 @@ import java.nio.file.Paths;
 
 public class FileUtil {
     public static void writeToFile(File file, byte[] fileContent) {
-        System.out.println("Writing bytes to file...");
-        //Path path = Paths.get(file.getAbsolutePath());
-        System.out.println(file);
+
         try {
-            //Files.write(path, fileContent);
-//            File file1 = new File(file);
-//            file1.createNewFile();
             FileOutputStream outputStream = new FileOutputStream(file);
             outputStream.write(fileContent);
             outputStream.close();
-
-            System.out.println("write done!");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        System.out.println("Done writing bytes to file...");
     }
 
     public static byte[] readBytesFromFile(File file) {
-        System.out.println("Reading bytes from file...");
         Path path = Paths.get(file.getAbsolutePath());
         byte[] data = new byte[0];
         try {
@@ -36,7 +27,6 @@ public class FileUtil {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        System.out.println("Done reading from file...");
         return data;
     }
 

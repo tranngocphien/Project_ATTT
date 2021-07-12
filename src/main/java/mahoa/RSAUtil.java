@@ -27,17 +27,13 @@ public class RSAUtil {
     public static byte[] encryptKey(PublicKey key, byte[] content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, key);
-
         return cipher.doFinal(content);
     }
 
     public static byte[] decryptKey(PrivateKey key, byte[] content) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        System.out.println("decrypt 1");
         cipher.init(Cipher.DECRYPT_MODE, key);
-        System.out.println("decrypt 2 : " + key);
         byte[] b = cipher.doFinal(content);
-        System.out.println(b);
         return b;
     }
 }
