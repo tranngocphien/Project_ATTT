@@ -71,19 +71,19 @@ public class ChatController {
         String receiver = cbListUser.getValue();
         String content = txContent.getText();
 
-        // 1. Generate AES key
+        // 1. Khởi tạo khóa AES
         SecretKey key = AESUtil.generateAESKey();
 
-        // 2. Encrypt file content
+        // 2. Mã hóa nội dung tin nhắn
         byte[] encryptedContent = AESUtil.encryptFile(key, content.getBytes());
 
         File publicKeyFile = new File("key/"+receiver+"/public_key.txt");
 
-        // 3. Encrypt AES key
+        // 3. Mã hóa khóa AES
         PublicKey publicKey = RSAUtil.getPublicKey(Base64.getDecoder().decode(FileUtil.readBytesFromFile(publicKeyFile)));
         byte[] encryptedKey = RSAUtil.encryptKey(publicKey, key.getEncoded());
 
-        // 4. Attach encrypted key to file
+        // 4. Nối khóa AES và nội dung tin nhắn đã được mã hóa
         byte[] fileOutputContent = FileUtil.combineBytes(encryptedKey, encryptedContent);
 
         // convert byte[] to string, then send to receiver

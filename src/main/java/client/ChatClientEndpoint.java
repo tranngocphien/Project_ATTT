@@ -53,20 +53,20 @@ public class ChatClientEndpoint {
         File privateKeyFile = new File("key/"+message.getTo()+"/private_key.txt");
 
 
-        // 1. First 256 is encrypted AES key
+        // 1. 256 byte đầu tiên là khóa AES đã mã hóa
         byte[] encryptedKey = Arrays.copyOfRange(content, 0, 256);
 
-        // 2. Next 16 bytes for IV
+        // 2. 16 byte tiếp theo là IV (vector khởi tạo: initialization value)
         byte[] ivBytes = Arrays.copyOfRange(content, 256, 272);
 
-        // 3. Remaining bytes is encrypted file content
+        // 3. Những byte còn lại là nội dung tin nhắn đã được mã hóa
         byte[] fileBytes = Arrays.copyOfRange(content, 272, content.length);
 
-        // 4. Decrypt the AES key
+        // 4. Giải mã khóa AES bằng RSA
         PrivateKey rsaPrivate = RSAUtil.getPrivateKey(Base64.getDecoder().decode(FileUtil.readBytesFromFile(privateKeyFile)));
         byte[] aesKeyBytes = RSAUtil.decryptKey(rsaPrivate, encryptedKey);
 
-        // 5. Decrypt file content
+        // 5. Giải mã tin nhắn bằng AES
         SecretKey aesKey = AESUtil.getAESKey(aesKeyBytes);
         IvParameterSpec ivParams = AESUtil.getIVParams(ivBytes);
         byte[] decryptedContent = AESUtil.decryptFile(aesKey, ivParams, fileBytes);
